@@ -9,3 +9,5 @@ R
 "tests/fractional-ownership.test.ts,6/6/66b5e79afe8946de14e75b0ef62dc765a4ca607e
 H
 contracts/licensing.clar,4/8/485e681ac1dcfe7f9c9c2270616cc7f37b7d33ba
+G
+tests/licensing.test.ts,e/c/ec61909a1e0229a201a3f39ae93167143fdf5178

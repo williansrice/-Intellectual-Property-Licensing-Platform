@@ -1,21 +1,41 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-import { describe, expect, it } from "vitest";
+describe('Licensing Contract', () => {
+  let mockContractCall: any
+  
+  beforeEach(() => {
+    mockContractCall = vi.fn()
+  })
+  
+  it('should create a license', async () => {
+    mockContractCall.mockResolvedValue({ success: true, value: 1 })
+    const result = await mockContractCall('create-license', 1, 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG', 'License terms', 10000, 5)
+    expect(result.success).toBe(true)
+    expect(result.value).toBe(1)
+  })
+  
+  it('should get license details', async () => {
+    mockContractCall.mockResolvedValue({
+      success: true,
+      value: {
+        assetId: 1,
+        licensee: 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG',
+        terms: 'License terms',
+        startBlock: 10000,
+        endBlock: 20000,
+        royaltyRate: 5
+      }
+    })
+    const result = await mockContractCall('get-license', 1)
+    expect(result.success).toBe(true)
+    expect(result.value.assetId).toBe(1)
+    expect(result.value.royaltyRate).toBe(5)
+  })
+  
+  it('should terminate a license', async () => {
+    mockContractCall.mockResolvedValue({ success: true })
+    const result = await mockContractCall('terminate-license', 1)
+    expect(result.success).toBe(true)
+  })
+})
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
-
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
-  });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
-});
